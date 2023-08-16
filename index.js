@@ -77,8 +77,13 @@ const raisedCard = document.getElementById("total-raised");
 const totalRaised = GAMES_JSON.reduce((total, game) => total + game.pledged, 0);
 
 
+
+
 // set inner HTML using template literal
-raisedCard.innerHTML = `Total Raised: $${totalRaised.toLocaleString()}`;
+const fundedGamesCount = GAMES_JSON.filter(game => game.pledged >= game.goal).length;  // getting funded games count
+raisedCard.innerHTML = `Total Raised: $${totalRaised.toLocaleString()}`; 
+const raisedAmount = document.getElementById("raised-Amount");
+raisedAmount.textContent = `A total of $${totalRaised} has been raised for ${fundedGamesCount} games.`;
 
 // grab number of games card and set its inner HTML
 const gamesCard = document.getElementById("num-games");
@@ -115,8 +120,8 @@ function filterFundedOnly() {
 
     // use the function we previously created to add funded games to the DOM
     addGamesToPage(fundedGames);
-
 }
+
 
 
 // show all games
@@ -149,11 +154,11 @@ const descriptionContainer = document.getElementById("description-container");
 
 // use filter or reduce to count the number of unfunded games
 const unfundedGamesCount = GAMES_JSON.filter(game => game.pledged < game.goal).length;
-console.log("Number of Unfunded Games:", unfundedGamesCount);
 
 // create a string that explains the number of unfunded games using the ternary operator
-const unfundedGamesExplanation = `Currently ${unfundedGamesCount} game${unfundedGamesCount === 1 ? " is" : "s are"} unfunded.`;
-console.log(unfundedGamesExplanation);
+const unfundedGamesExplanation = `Currently ${unfundedGamesCount} game${unfundedGamesCount === 1 ? " is" : "s are"} unfunded. Please help us fund these amazing games!`;
+const unfundedGamesCountElement = document.getElementById("unfunded-games-count");
+unfundedGamesCountElement.textContent = `${unfundedGamesExplanation}`;
 
 // create a new DOM element containing the template string and append it to the description container
 
@@ -174,5 +179,10 @@ const sortedGames =  GAMES_JSON.sort( (item1, item2) => {
 
 const [firstGame, secondGame] = sortedGames;
 
-console.log("First Most Funded Game:", firstGame);
-console.log("Second Most Funded Game:", secondGame);
+const topFundedGameElement = document.getElementById("top-funded-game");
+topFundedGameElement.textContent = `${firstGame.name}`;
+
+const runnerUpGameElement = document.getElementById("runner-up-game");
+runnerUpGameElement.textContent = `${secondGame.name}`;
+
+
